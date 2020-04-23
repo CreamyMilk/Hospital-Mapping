@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>                                                                                                                       
+<!-- Make sure you put this AFTER Leaflet's CSS -->                                                                                   
+ <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"                                                                    
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="                           crossorigin=""></script>
+		<link rel="stylesheet" href="styles2.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Additions Point</title>
+    </style>
+
+</head>
+<body>
+  <form>
+    <label for="Hname">HospitalName:</label>
+    <input type="text" id="Hname" name="Hname"><br>
+    <button type="submit">Send Data</button>
+    <label for="Xcords">Xcords:</label>
+    <input type="text" id="Xcords" name="Xcords">
+    <label for="Ycords">Ycords:</label>
+    <input type="text" id="Ycords" name="Ycords">
+    <div id="mapid"></div>
+    <label for="Services">Hospital Services in new lines</label>
+  </form>
+    <p>Added:<span id='DONE'></span></p>
+    <a href="index.html">Find out your cordinates</a>
+    
+</body>
+<script>
+  const form = document.querySelector('form')
+  form.addEventListener('submit',(event)=>{
+    event.preventDefault()
+    const formData = new FormData(form)
+    const Hospital = formData.get('Hname')
+    const X = formData.get('Xcords')
+    const Y = formData.get('Ycords')
+    const hinfo = {
+      Name: Hospital +" Hospital",
+      X:Number(X),
+      Y:Number(Y)
+    }
+    sendData(hinfo)
+    //console.log(hinfo)
+  })
+  let done =[]
+  function sendData(data){
+    
+    const don = document.querySelector('#DONE')
+
+    const PointN =document.querySelector('#Hname')
+    Hname.value =""
+    fetch('/api', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify(data),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        done.push(data.Name.split(" ")[0])
+        don.innerHTML = done
+      })
+
+}
+function getCords(){
+  navigator.geolocation.getCurrentPosition((pos)=>{
+  const {latitude ,longitude} = pos.coords
+  console.log(latitude)
+  console.log(longitude)
+  })
+}
+function getData(){
+  fetch('/api')
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+}
+const mymap = L.map('mapid').setView([-1.2841, 36.9155], 16);
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiaG9tZXIyNTQiLCJhIjoiY2s3cTkyczY5MDExeDNmbnZ2bjBxcHJxaCJ9.VlYz-NWHKnwW98GUMCSkzA'
+}).addTo(mymap);
+
+mymap.on('click', function(e){
+  var coord = e.latlng;
+  var lat = coord.lat;
+  var lng = coord.lng;
+  const PointX =document.querySelector('#Xcords')
+  PointX.value= lat
+  const PointY =document.querySelector('#Ycords')
+  PointY.value= lng
+  console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+  });
+
+  mymap.on('click', function(e){
+    var marker = new L.marker(e.latlng).addTo(mymap);
+});
+/*
+if('geolocation' in navigator){
+    console.log('Geo lOcal available')
+    getCords()
+  } else{
+    console.log('HAki pole browser yako in aringa')
+  }
+  */
+</script>
+</html>

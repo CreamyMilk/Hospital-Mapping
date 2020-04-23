@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Mapping Program</title>
+   <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+	 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+   <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+</head>
+<body>
+
+   <div id="content">
+      <span class="slide">
+         <a href="#" onclick="openSlideMenu()">
+           <i class="fas fa-bars"></i>
+         </a>
+       </span>
+       <br>
+      This Just for shttps://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.jsimple Node based app ya GAFE
+      <br>
+      <a href="send.html">To add Hospitals</a>
+      <h3>
+   🌧️🌧️🌧️🌧️🌧️🌧️🌧️🌧️🌧️🌧️🌧️🌧️
+      </h3>
+   
+
+   <div id="menu" class="nav">
+     <a href="#" class="close" onclick="closeSlideMenu()">
+       <i class="fas fa-times"></i>
+     </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+     <a href="#">Home</a>
+     <a href="services.html">👩‍⚕️Services</a>
+     <a href="contact.html">☎️Call</a>
+     <a href="#">About</a>
+ 
+   </div>
+      <div id="mapid"></div>
+   </div>
+
+
+
+
+<div>
+   This are the available hospitals in your location
+   <button onclick="getCords()">Find out your cordinates</button>
+
+</div>
+</body>
+
+<script src="app.js"></script>
+</html>
